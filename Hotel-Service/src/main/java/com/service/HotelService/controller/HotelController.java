@@ -18,7 +18,6 @@ import com.service.HotelService.service.HotelService;
 @RestController
 @RequestMapping("/hotels")
 public class HotelController {
-	
 	@Autowired
 	private HotelService hotelService;
 	// create
