@@ -1,6 +1,7 @@
 package com.service.Rating_Service.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class RatingServiceImpl implements RatingService{
 	public Rating create(Rating rating) {
 		// TODO Auto-generated method stub
 		//return null;
+		String ratingId = UUID.randomUUID().toString();
+		//rating.setId(ratingId);
+		rating.setRatingId(ratingId);
 		return ratingRepository.save(rating);
 		
 		
