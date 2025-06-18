@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.user.service.Entity.UserEntity;
 import com.user.service.Exception.ResourceNotFoundException;
@@ -35,7 +34,7 @@ public class UserServiceImplemetation implements UserService {
 		// TODO Auto-generated method stub
 		return userRepository.findAll();
 	}
-
+	// get single user
 	@Override
 	public UserEntity getUser(String userID) {
 		// TODO Auto-generated method stub
@@ -43,9 +42,11 @@ public class UserServiceImplemetation implements UserService {
 			 return new ResourceNotFoundException("resource with given id is not found on server !!"+userID);
 		});*/
 		
-		return userRepository.findById(userID)
+		UserEntity user = userRepository.findById(userID)
 		        .orElseThrow(
 		        () -> new ResourceNotFoundException("Resource with given ID not found on server: " + userID));
+		
+		return user;
 	}
 
 	@Override
