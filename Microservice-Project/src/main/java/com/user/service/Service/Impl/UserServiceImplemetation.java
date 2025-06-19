@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.user.service.Entity.UserEntity;
 import com.user.service.Exception.ResourceNotFoundException;
@@ -17,6 +18,9 @@ public class UserServiceImplemetation implements UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@Override
 	public UserEntity saveUser(UserEntity user) {
@@ -37,7 +41,7 @@ public class UserServiceImplemetation implements UserService {
 	// get single user
 	@Override
 	public UserEntity getUser(String userID) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 	/*	return userRepository.findById(userID).orElseThrow(()->{
 			 return new ResourceNotFoundException("resource with given id is not found on server !!"+userID);
 		});*/
@@ -45,7 +49,7 @@ public class UserServiceImplemetation implements UserService {
 		UserEntity user = userRepository.findById(userID)
 		        .orElseThrow(
 		        () -> new ResourceNotFoundException("Resource with given ID not found on server: " + userID));
-		
+		// fetch rating of the above user from rating service
 		return user;
 	}
 
