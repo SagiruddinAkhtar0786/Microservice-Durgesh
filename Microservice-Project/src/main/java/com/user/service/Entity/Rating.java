@@ -19,5 +19,8 @@ public class Rating {
 	private String remark;
 	
 	
+	private Hotel hotel;
+	
+	
 
 }
