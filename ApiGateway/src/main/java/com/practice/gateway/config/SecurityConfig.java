@@ -12,8 +12,7 @@ public class SecurityConfig{
 	
 	@Bean
 	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
-		httpSecurity
-					.authorizeExchange()
+		httpSecurity.authorizeExchange()
 					.anyExchange()
 					.authenticated()
 					.and()
