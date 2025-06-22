@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.user.service.Entity.UserEntity;
 import com.user.service.Service.UserService;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 
 @RestController
 @RequestMapping("/users")
@@ -36,18 +36,23 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(user1);
 	}
 	
+	int retryCount= 1;
 	//single user get
 	@GetMapping("/{userId}")
-	@CircuitBreaker(name="ratingHotelBreaker" , fallbackMethod="ratingHotelFallbackMethod")
+	//@CircuitBreaker(name="ratingHotelBreaker" , fallbackMethod="ratingHotelFallbackMethod")
+	@Retry(name="RatingHotelService" ,fallbackMethod="ratingHotelFallbackMethod")
 	public ResponseEntity<UserEntity> getSingleUser(@PathVariable String userId){
+		logger.info("get single user handler >. ");
+		logger.info("Retry Count :{} "+retryCount);
+		retryCount++;
 		UserEntity user = userService.getUser(userId);
 		return ResponseEntity.ok(user);
 		
 	}
 	
 	// creating fall back method for circuit breaker
-	public ResponseEntity<UserEntity> ratigHotelFallbackMethod(String userId, Exception ex){
-		logger.info("fall back id executed...");
+	public ResponseEntity<UserEntity> ratingHotelFallbackMethod(String userId, Exception ex){
+		logger.info("fall back id executed..."+ex.getMessage());
 		UserEntity user=	UserEntity.builder()
 					.email("srakhtar1997@gmail.com")
 					.name("sagiruddin Akhtar")
